@@ -1,6 +1,6 @@
 {
   "name": "goturl",
-  "version": "3.6.9",
+  "version": "3.6.12",
   "description": "The library that tries to do its best to extract urls from strings.",
   "keywords": [
     "url",
@@ -10,6 +10,7 @@
     "string",
     "protocol"
   ],
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
