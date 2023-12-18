@@ -1,0 +1,50 @@
+{
+  "name": "goturl",
+  "version": "3.6.9",
+  "description": "The library that tries to do its best to extract urls from strings.",
+  "keywords": [
+    "url",
+    "uri",
+    "parse",
+    "extract",
+    "string",
+    "protocol"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "private": false,
+  "repository": "https://github.com/Gamote/goturl.git",
+  "license": "MIT",
+  "scripts": {
+    "prepack": "yarn build",
+    "build": "rm -rf dist && rollup -c",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "url-regex-safe": "^4.0.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^11.1.2",
+    "@types/node": "^20.5.6",
+    "@types/url-regex-safe": "^1.0.2",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "@vitest/coverage-c8": "^0.31.1",
+    "eslint": "^8.48.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "npm:eslint-plugin-i",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "prettier": "^3.0.2",
+    "rollup": "^3.28.1",
+    "rollup-plugin-dts": "^6.0.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "tsx": "^3.12.7",
+    "typescript": "^5.2.2",
+    "vitest": "^0.34.3"
+  }
+}

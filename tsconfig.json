@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "baseUrl": "./",
+    "strict": true,
+    "removeComments": false,
+    "esModuleInterop": true,
+  }
+}
