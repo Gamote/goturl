@@ -50,6 +50,8 @@ const extractUrl = (
   input: unknown,
   options?: ExtractUrlOptions,
 ): null | string => {
+  const supportedProtocols = ['https', 'http'];
+
   try {
     if (typeof input === 'string') {
       const matches = input.match(urlRegexSafe());
@@ -58,30 +60,42 @@ const extractUrl = (
         return null;
       }
 
+      const urls = matches.reduce((urls, url) => {
+        // Remove spaces from start and end
+        url = url.trim();
+
+        // Do not allow too short URLs
+        if (url.length <= 3) {
+          return urls;
+        }
+
+        // Try to fix the protocol if the option is set to "true"
+        if (options?.tryFixProtocol) {
+          url = tryFixUriProtocol(url).uri;
+        }
+
+        // If it has a protocol, and it's not one of the supported protocols, return null
+        if (
+          url.includes('://') &&
+          !supportedProtocols.some((protocol) => url.includes(`${protocol}://`))
+        ) {
+          return urls;
+        }
+
+        // Use fallback protocol if the protocol is not specified
+        if (options?.fallbackProtocol && !url.includes('://')) {
+          url = `${options.fallbackProtocol}://${url}`;
+        }
+
+        urls.push(url);
+
+        return urls;
+      }, [] as string[]);
+
       // By default, we will return the first match, but if the option is set to true we will return the longest match
-      let url = options?.getLongestUrl
-        ? matches.reduce((a, b) => (a.length > b.length ? a : b), '')
-        : matches[0];
-
-      // Remove spaces from start and end
-      url = url.trim();
-
-      // Do not allow too short URLs
-      if (url.length <= 3) {
-        return null;
-      }
-
-      // Try to fix the protocol if the option is set to "true"
-      if (options?.tryFixProtocol) {
-        url = tryFixUriProtocol(url).uri;
-      }
-
-      // Use fallback protocol if the protocol is not specified
-      if (options?.fallbackProtocol && !url.includes('://')) {
-        url = `${options.fallbackProtocol}://${url}`;
-      }
-
-      return url;
+      return options?.getLongestUrl
+        ? urls.reduce((a, b) => (a.length > b.length ? a : b), '')
+        : urls[0];
     } else {
       return null;
     }

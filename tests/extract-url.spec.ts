@@ -16,7 +16,7 @@ describe('extractUrl', () => {
         'Quick reminder, check out our websitehttps://hurry.com/mistake',
         { tryFixProtocol: true },
       ),
-    ).toBe('https://www.domain.com/product/stuff-P469825');
+    ).toBe('https://hurry.com/mistake');
 
     expect(
       extractUrlWrapper('https://www.domain.com/product/stuff-P469825'),
@@ -49,6 +49,13 @@ describe('extractUrl', () => {
     expect(extractUrlWrapper('Visithttps://you-can.com/correct-me')).toBe(
       'https://you-can.com/correct-me',
     );
+
+    expect(
+      extractUrl(
+        'Why would you do this http://tome.comttp://what.com/?some=query&I=guess',
+        { getLongestUrl: true, tryFixProtocol: true },
+      ),
+    ).toBe('http://tome.com');
   });
 
   it('Should not match', () => {

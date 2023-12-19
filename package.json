@@ -1,6 +1,6 @@
 {
   "name": "goturl",
-  "version": "3.6.15",
+  "version": "3.6.18",
   "description": "The library that tries to do its best to extract urls from strings.",
   "keywords": [
     "url",
