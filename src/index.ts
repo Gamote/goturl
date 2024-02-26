@@ -1,3 +1,3 @@
-import extractUrl from './extract-url';
+import extractUrl, { ExtractUrlOptions } from './extract-url';
 
-export { extractUrl };
+export { extractUrl, ExtractUrlOptions };

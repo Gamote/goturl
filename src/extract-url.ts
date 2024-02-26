@@ -1,6 +1,6 @@
 import urlRegexSafe from 'url-regex-safe';
 
-type ExtractUrlOptions = {
+export type ExtractUrlOptions = {
   getLongestUrl?: boolean;
   tryFixProtocol?: boolean;
   fallbackProtocol?: string;
