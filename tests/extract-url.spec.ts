@@ -56,6 +56,18 @@ describe('extractUrl', () => {
         { getLongestUrl: true, tryFixProtocol: true },
       ),
     ).toBe('http://tome.com');
+
+    expect(
+      extractUrlWrapper(
+        'The parenthesis should be included https://choose.me/first-test-(1st',
+      ),
+    ).toBe('https://choose.me/first-test-(1st');
+
+    expect(
+      extractUrlWrapper(
+        'The parenthesis should be included. Both of them https://choose.me/second-test-(2nd)',
+      ),
+    ).toBe('https://choose.me/second-test-(2nd)');
   });
 
   it('Should not match', () => {
