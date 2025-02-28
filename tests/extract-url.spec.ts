@@ -2,11 +2,15 @@ import { it, describe, expect } from 'vitest';
 
 import { extractUrl } from '../src';
 
-const extractUrlWrapper = (input: string): string | null =>
+const extractUrlWrapper = (
+  input: string,
+  options?: { includeParentheses?: boolean },
+): string | null =>
   extractUrl(`Visit ${input}`, {
     getLongestUrl: true,
     tryFixProtocol: true,
     fallbackProtocol: 'https',
+    includeParentheses: options?.includeParentheses,
   });
 
 describe('extractUrl', () => {
@@ -56,18 +60,38 @@ describe('extractUrl', () => {
         { getLongestUrl: true, tryFixProtocol: true },
       ),
     ).toBe('http://tome.com');
+  });
+
+  it('Should handle parentheses properly', () => {
+    // Without the option
+    expect(
+      extractUrlWrapper('https://choose.me/match-opened-(parentheses'),
+    ).toBe('https://choose.me/match-opened-(parentheses');
 
     expect(
       extractUrlWrapper(
+        'https://choose.me/do-not-parse-after-closed-parentheses)-extra',
+      ),
+    ).toBe('https://choose.me/do-not-parse-after-closed-parentheses');
+
+    // With the option
+    expect(
+      extractUrlWrapper(
         'The parenthesis should be included https://choose.me/first-test-(1st',
+        {
+          includeParentheses: true,
+        },
       ),
     ).toBe('https://choose.me/first-test-(1st');
 
     expect(
       extractUrlWrapper(
-        'The parenthesis should be included. Both of them https://choose.me/second-test-(2nd)',
+        'The parenthesis should be included. Both of them https://choose.me/second-test-(2nd)-extra',
+        {
+          includeParentheses: true,
+        },
       ),
-    ).toBe('https://choose.me/second-test-(2nd)');
+    ).toBe('https://choose.me/second-test-(2nd)-extra');
   });
 
   it('Should not match', () => {

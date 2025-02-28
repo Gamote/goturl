@@ -4,6 +4,7 @@ export type ExtractUrlOptions = {
   getLongestUrl?: boolean;
   tryFixProtocol?: boolean;
   fallbackProtocol?: string;
+  includeParentheses?: boolean;
 };
 
 /**
@@ -54,7 +55,9 @@ const extractUrl = (
 
   try {
     if (typeof input === 'string') {
-      const matches = input.match(urlRegexSafe());
+      const matches = input.match(
+        urlRegexSafe({ parens: options?.includeParentheses || false }),
+      );
 
       if (!matches || matches.length === 0) {
         return null;
