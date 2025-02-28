@@ -31,6 +31,9 @@ extractUrl("Check out our promotions: http://promotion.com http://promotion.com/
 
 extractUrl("Quick reminder, check out our websitehttps://hurry.com/mistake", { tryFixProtocol: true });
 // => https://hurry.com/mistake
+
+extractUrl("Visit https://example.com/my-(awesome)-path for more info", { includeParentheses: true });
+// => https://example.com/my-(awesome)-path
 ```
 
 ## Testing
