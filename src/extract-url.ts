@@ -41,6 +41,26 @@ const tryFixUriProtocol = (
 };
 
 /**
+ * This method is going to check if the hostname is valid
+ *
+ * @param input
+ */
+const isHostnameValid = (input: string): boolean => {
+  const url = new URL(input);
+  const hostnameRegex = /^(?!-)[a-zA-Z0-9-]{1,63}(?<!-)$/;
+  const hostname = url.hostname;
+  // Split into labels (subdomains)
+  const labels = hostname?.split('.');
+
+  // Each label must be valid
+  return (
+    labels?.length > 0 &&
+    labels?.every((label) => hostnameRegex.test(label)) &&
+    hostname?.length <= 253
+  );
+};
+
+/**
  * This method is going to extract the first url found in the input string
  * using the {@link urlRegexSafe} from the `url-regex-safe` package.
  *
@@ -60,6 +80,10 @@ const extractUrl = (
       );
 
       if (!matches || matches.length === 0) {
+        return null;
+      }
+
+      if (!matches.every(isHostnameValid)) {
         return null;
       }
 
